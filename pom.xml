@@ -28,7 +28,7 @@
                     <manifest>
                         <addClasspath>true</addClasspath>
                         <!-- This is main class of your program which will be executed-->
-                        <mainClass>{{this.is.your.qualified.name.of.main.class}}</mainClass>
+                        <mainClass>MainClass</mainClass>
                     </manifest>
                 </archive>
             </configuration>

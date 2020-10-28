@@ -6,7 +6,7 @@ import com.anjanashankar.geektrust.Person;
  * @Author Anjana Shankar
  * @Created 2020-10-27
  */
-public class AddChild implements Command {
+public class AddChild implements AddCommand {
     Person mother;
 
     public AddChild(Person mother) {
