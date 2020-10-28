@@ -2,7 +2,7 @@ package com.anjanashankar.geektrust;
 
 /**
  * @Author Anjana Shankar
- * @Created 2020-10-27
+ * @Created 2020-10-28
  */
 public class Constants {
 
@@ -13,8 +13,6 @@ public class Constants {
     public static final String ADD_FAMILY_HEAD = "ADD_FAMILY_HEAD";
 
     public static final String ADD_SPOUSE = "ADD_SPOUSE";
-
-    public static final String NOT_YET_IMPLEMENTED = "NOT YET IMPLEMENTED";
 
     public static final String PERSON_NOT_FOUND = "PERSON_NOT_FOUND";
 

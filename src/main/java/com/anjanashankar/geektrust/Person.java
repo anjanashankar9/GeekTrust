@@ -1,14 +1,17 @@
 package com.anjanashankar.geektrust;
 
+import com.anjanashankar.geektrust.command.GetRelationshipCommand;
+import com.anjanashankar.geektrust.exception.ChildAdditionException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @Author Anjana Shankar
- * @Created 2020-10-27
+ * @Created 2020-10-28
  */
 public class Person {
-    private static int count=0;
+    private static int count = 0;
     private int sequenceId;
     private String name;
     private Gender gender;
@@ -82,16 +85,18 @@ public class Person {
         spouse.spouse = this;
     }
 
-    public void addChild(Person person) {
-        if(this.gender == Gender.FEMALE) {
+    public void addChild(Person person) throws ChildAdditionException {
+        if (this.gender == Gender.FEMALE) {
             this.children.add(person);
             person.setMother(this);
             person.setFather(this.spouse);
-        }
-        else {
-            System.out.println(Constants.CHILD_ADDITION_FAILED);
+        } else {
+            throw new ChildAdditionException();
         }
     }
 
-    // Write a comparator based on sequence id.
+    public String getRelationship(GetRelationshipCommand cmd) {
+
+        return cmd.execute();
+    }
 }

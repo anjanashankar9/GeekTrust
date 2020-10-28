@@ -1,17 +1,18 @@
 package com.anjanashankar.geektrust;
 
 import com.anjanashankar.geektrust.command.*;
+import com.anjanashankar.geektrust.exception.ChildAdditionException;
 import com.anjanashankar.geektrust.exception.PersonNotFoundException;
+import com.anjanashankar.geektrust.exception.RelationshipNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.anjanashankar.geektrust.Constants.NONE;
-import static com.anjanashankar.geektrust.Constants.PERSON_NOT_FOUND;
+import static com.anjanashankar.geektrust.Constants.CHILD_ADDITION_SUCCEEDED;
 
 /**
  * @Author Anjana Shankar
- * @Created 2020-10-27
+ * @Created 2020-10-28
  */
 public class FamilyTree {
     private Person familyHead;
@@ -24,20 +25,20 @@ public class FamilyTree {
 
     public Person searchByName(String name) throws PersonNotFoundException {
         Person p = searchByName(familyHead, name);
-        if(p == null) {
-            throw new PersonNotFoundException(PERSON_NOT_FOUND);
+        if (p == null) {
+            throw new PersonNotFoundException();
         }
         return p;
     }
 
     public Person searchByName(Person p, String name) {
-        if(p == null || name == null)
-            return  null;
+        if (p == null || name == null)
+            return null;
 
-        if(p.getName().equals(name)) {
+        if (p.getName().equals(name)) {
             return p;
         }
-        if(p.getSpouse() != null && p.getSpouse().getName().equals(name)) {
+        if (p.getSpouse() != null && p.getSpouse().getName().equals(name)) {
             return p.getSpouse();
         }
 
@@ -49,9 +50,9 @@ public class FamilyTree {
             childlist = p.getSpouse().getChildren();
         }
 
-        for(Person c: childlist) {
+        for (Person c : childlist) {
             found = searchByName(c, name);
-            if(found != null) {
+            if (found != null) {
                 return found;
             }
         }
@@ -59,56 +60,68 @@ public class FamilyTree {
     }
 
     public void addSpouse(String name, String spouseName, String gender) throws PersonNotFoundException {
-        AddSpouse addSpouse = new AddSpouse(searchByName(name));
+        Person p = searchByName(name);
         Person newPerson = new Person(spouseName, Gender.fromString(gender), null, null);
-        addSpouse.execute(newPerson);
+        p.addSpouse(newPerson);
     }
 
-    public void addChild(String name, String childName, String gender) throws PersonNotFoundException {
-        AddChild addChild = new AddChild(searchByName(name));
+    public void addChild(String name, String childName, String gender) throws PersonNotFoundException, ChildAdditionException {
+        Person p = searchByName(name);
         Person newPerson = new Person(childName, Gender.fromString(gender), null, null);
-        addChild.execute(newPerson);
+        p.addChild(newPerson);
+        System.out.println(CHILD_ADDITION_SUCCEEDED);
     }
 
-    public String getRelationship(String name, String relation) throws PersonNotFoundException {
+    public String getRelationship(String name, String relation) throws PersonNotFoundException, RelationshipNotFoundException {
         Person person = searchByName(name);
-        if(person == null) {
-            return PERSON_NOT_FOUND;
+        if (person == null) {
+            throw new PersonNotFoundException();
         }
         Relationships relationship = Relationships.fromString(relation);
 
+        GetRelationshipCommand cmd = null;
         switch (relationship) {
             case DAUGHTER:
-                return new Daughter(person).execute();
+                cmd = new GetDaughters();
+                break;
 
             case SON:
-                return new Son(person).execute();
+                cmd = new GetSons();
+                break;
 
             case SIBLINGS:
-                return new Siblings(person).execute();
+                cmd = new GetSiblings();
+                break;
 
             case SISTER_IN_LAW:
-                return new SisterInLaw(person).execute();
+                cmd = new GetSisterInLaws();
+                break;
 
             case BROTHER_IN_LAW:
-                return new BrotherInLaw(person).execute();
+                cmd = new GetBrotherInLaws();
+                break;
 
             case MATERNAL_AUNT:
-                return new MaternalAunt(person).execute();
+                cmd = new GetMaternalAunts();
+                break;
 
             case PATERNAL_AUNT:
-                return new PaternalAunt(person).execute();
+                cmd = new GetPaternalAunts();
+                break;
 
             case MATERNAL_UNCLE:
-                return new MaternalUncle(person).execute();
+                cmd = new GetMaternalUncles();
+                break;
 
             case PATERNAL_UNCLE:
-                return new PaternalUncle(person).execute();
+                cmd = new GetPaternalUncles();
+                break;
 
             default:
-                return NONE;
+                throw new RelationshipNotFoundException();
 
         }
-
+        cmd.setPerson(person);
+        return cmd.execute();
     }
 }

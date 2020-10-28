@@ -12,7 +12,7 @@ public class PersonComparator implements Comparator {
         Person p1 = (Person) o1;
         Person p2 = (Person) o2;
 
-        if(p1.getSequenceId() == p2.getSequenceId())
+        if (p1.getSequenceId() == p2.getSequenceId())
             return 0;
         if (p1.getSequenceId() < p2.getSequenceId())
             return -1;

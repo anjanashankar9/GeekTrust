@@ -13,7 +13,7 @@ import static com.anjanashankar.geektrust.Constants.NONE;
  * @Author Anjana Shankar
  * @Created 2020-10-28
  */
-public class PaternalAunt implements GetRelationshipCommand {
+public class GetPaternalAunts implements GetRelationshipCommand {
     Person person;
 
     @Override
@@ -25,7 +25,7 @@ public class PaternalAunt implements GetRelationshipCommand {
     public String execute() {
         ArrayList<Person> paternalAunt = new ArrayList<>();
 
-        if(person.getFather() != null && person.getFather().getMother() != null) {
+        if (person.getFather() != null && person.getFather().getMother() != null) {
             List<Person> relations = person.getFather().getMother().getChildren();
             for (Person r : relations) {
                 if (r.getGender() == Gender.FEMALE) {
@@ -36,8 +36,8 @@ public class PaternalAunt implements GetRelationshipCommand {
 
         paternalAunt.sort(new PersonComparator());
         StringBuilder sb = new StringBuilder();
-        for(Person p: paternalAunt) {
-            sb.append(p.getName()+" ");
+        for (Person p : paternalAunt) {
+            sb.append(p.getName() + " ");
         }
         return sb.length() == 0 ? NONE : sb.toString().trim();
     }

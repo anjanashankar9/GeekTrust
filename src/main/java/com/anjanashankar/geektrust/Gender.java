@@ -2,7 +2,7 @@ package com.anjanashankar.geektrust;
 
 /**
  * @Author Anjana Shankar
- * @Created 2020-10-27
+ * @Created 2020-10-28
  */
 public enum Gender {
     FEMALE("Female"),
@@ -10,12 +10,8 @@ public enum Gender {
 
     private final String string;
 
-    Gender(String g){
+    Gender(String g) {
         this.string = g;
-    }
-
-    public String toString() {
-        return this.string;
     }
 
     public static Gender fromString(String gender) {
@@ -25,5 +21,9 @@ public enum Gender {
             }
         }
         throw new IllegalArgumentException("I can't understand the gender !!!");
+    }
+
+    public String toString() {
+        return this.string;
     }
 }

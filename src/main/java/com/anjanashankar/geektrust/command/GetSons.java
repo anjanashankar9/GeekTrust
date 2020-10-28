@@ -13,30 +13,31 @@ import static com.anjanashankar.geektrust.Constants.NONE;
  * @Author Anjana Shankar
  * @Created 2020-10-28
  */
-public class Son implements GetRelationshipCommand {
+public class GetSons implements GetRelationshipCommand {
     Person person;
 
     @Override
     public void setPerson(Person person) {
         this.person = person;
     }
+
     @Override
     public String execute() {
-        if(person.getGender() != Gender.FEMALE) {
+        if (person.getGender() != Gender.FEMALE) {
             person = person.getSpouse();
         }
         List<Person> children = person.getChildren();
         ArrayList<Person> relations = new ArrayList<>();
         //TODO: USE MAP AND FILTER
-        for(Person c: children) {
-            if(c.getGender() == Gender.MALE) {
+        for (Person c : children) {
+            if (c.getGender() == Gender.MALE) {
                 relations.add(c);
             }
         }
         relations.sort(new PersonComparator());
         StringBuilder sb = new StringBuilder();
-        for(Person p: relations) {
-            sb.append(p.getName()+" ");
+        for (Person p : relations) {
+            sb.append(p.getName() + " ");
         }
         return sb.length() == 0 ? NONE : sb.toString().trim();
     }

@@ -6,9 +6,9 @@ import com.anjanashankar.geektrust.Constants;
  * @Author Anjana Shankar
  * @Created 2020-10-28
  */
-public class PersonNotFoundException extends Exception {
+public class CommandNotFoundException extends Exception {
 
-    public PersonNotFoundException() {
-        super(Constants.PERSON_NOT_FOUND);
+    public CommandNotFoundException() {
+        super(Constants.INVALID_COMMAND);
     }
 }
