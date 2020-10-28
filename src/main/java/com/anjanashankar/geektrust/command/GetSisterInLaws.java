@@ -16,8 +16,9 @@ import static com.anjanashankar.geektrust.Constants.NONE;
 public class SisterInLaw implements GetRelationshipCommand {
     Person person;
 
-    public SisterInLaw(Person p) {
-        this.person = p;
+    @Override
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override

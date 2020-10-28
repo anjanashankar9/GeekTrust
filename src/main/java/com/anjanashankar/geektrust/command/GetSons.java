@@ -16,10 +16,10 @@ import static com.anjanashankar.geektrust.Constants.NONE;
 public class Son implements GetRelationshipCommand {
     Person person;
 
-    public Son(Person p) {
-        this.person = p;
+    @Override
+    public void setPerson(Person person) {
+        this.person = person;
     }
-
     @Override
     public String execute() {
         if(person.getGender() != Gender.FEMALE) {

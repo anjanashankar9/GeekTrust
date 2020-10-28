@@ -13,29 +13,30 @@ import static com.anjanashankar.geektrust.Constants.NONE;
  * @Author Anjana Shankar
  * @Created 2020-10-28
  */
-public class MaternalAunt implements GetRelationshipCommand {
+public class PaternalAunt implements GetRelationshipCommand {
     Person person;
 
-    public MaternalAunt(Person p) {
-        this.person = p;
+    @Override
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override
     public String execute() {
-        ArrayList<Person> maternalAunt = new ArrayList<>();
+        ArrayList<Person> paternalAunt = new ArrayList<>();
 
-        if(person.getMother() != null && person.getMother().getMother() != null) {
-            List<Person> relations = person.getMother().getMother().getChildren();
+        if(person.getFather() != null && person.getFather().getMother() != null) {
+            List<Person> relations = person.getFather().getMother().getChildren();
             for (Person r : relations) {
-                if (r.getGender() == Gender.FEMALE && r != person.getMother()) {
-                    maternalAunt.add(r);
+                if (r.getGender() == Gender.FEMALE) {
+                    paternalAunt.add(r);
                 }
             }
         }
 
-        maternalAunt.sort(new PersonComparator());
+        paternalAunt.sort(new PersonComparator());
         StringBuilder sb = new StringBuilder();
-        for(Person p: maternalAunt) {
+        for(Person p: paternalAunt) {
             sb.append(p.getName()+" ");
         }
         return sb.length() == 0 ? NONE : sb.toString().trim();

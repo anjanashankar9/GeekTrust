@@ -14,8 +14,9 @@ import static com.anjanashankar.geektrust.Constants.NONE;
 public class Siblings implements GetRelationshipCommand {
     Person person;
 
-    public Siblings(Person p) {
-        this.person = p;
+    @Override
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override

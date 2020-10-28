@@ -16,9 +16,12 @@ import static com.anjanashankar.geektrust.Constants.NONE;
 public class Daughter implements GetRelationshipCommand {
     Person person;
 
-    public Daughter(Person p) {
-        this.person = p;
+    public Daughter(){}
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
+
 
     @Override
     public String execute() {
