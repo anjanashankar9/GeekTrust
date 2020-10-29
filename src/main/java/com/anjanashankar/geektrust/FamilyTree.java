@@ -77,9 +77,6 @@ public class FamilyTree {
 
     public String getRelationship(String name, String relation) throws PersonNotFoundException {
         Member member = searchByName(name);
-        if (member == null) {
-            throw new PersonNotFoundException();
-        }
         Relationships relationship = Relationships.fromString(relation);
 
         GetRelationshipCommand cmd = null;

@@ -27,6 +27,14 @@ class FamilyTreeTest {
     }
 
     @Test
+    void testAddFamilyHeadIllegalArgumentGenderException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            familyTree = new FamilyTree();
+            familyTree.addFamilyHead("Head", "Test");
+        });
+    }
+
+    @Test
     void testAddSpouse() throws PersonNotFoundException, SpouseAdditionException {
         initializeFamilyTree();
         familyTree.addSpouse("Head", "Spouse", "Male");
@@ -59,7 +67,7 @@ class FamilyTreeTest {
         assertEquals(familyTree.getFamilyHead().getChildren().get(0).getGender(), Gender.FEMALE);
     }
 
-    void helperMethodToTestChildAdditionWithSpouse() throws ChildAdditionException, PersonNotFoundException, SpouseAdditionException {
+    void helperMethodToTestChildAdditionWithSpouse() throws PersonNotFoundException, SpouseAdditionException {
         familyTree = new FamilyTree();
         familyTree.addFamilyHead("Head", "Male");
         familyTree.addSpouse("Head", "Spouse", "Female");
@@ -85,7 +93,7 @@ class FamilyTreeTest {
     }
 
     @Test
-    void testAddChildTwoLevelSearch() throws ChildAdditionException, PersonNotFoundException, SpouseAdditionException {
+    void testAddChildTwoLevelSearch() throws ChildAdditionException, PersonNotFoundException {
         initializeFamilyTree();
         familyTree.addChild("Head", "Child2", "Female");
         familyTree.addChild("Child2", "Child3", "Female");
@@ -139,10 +147,19 @@ class FamilyTreeTest {
     }
 
     @Test
-    void testGetRelationshipWithRelationshipNotFoundException() {
+    void testGetRelationshipWithIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, ()-> {
             helperMethodToTestRelationships();
             familyTree.getRelationship("Vich", "RANDOM");
+        });
+
+    }
+
+    @Test
+    void testGetRelationshipWithPersonNotFoundException() {
+        assertThrows(PersonNotFoundException.class, ()-> {
+            helperMethodToTestRelationships();
+            familyTree.getRelationship("Test", Relationships.SISTER_IN_LAW.toString());
         });
 
     }
