@@ -26,15 +26,13 @@ public class GetBrotherInLaws implements GetRelationshipCommand {
         ArrayList<Member> brotherInLaw = new ArrayList<>();
 
         //Husband of siblings
-        if (member.getGender() == Gender.FEMALE) {
-            if (member.getMother() != null) {
-                List<Member> relations = member.getMother().getChildren();
-                for (Member r : relations) {
-                    if (r.getGender() == Gender.FEMALE && r != member) {
-                        Member sp = r.getSpouse();
-                        if (sp != null) {
-                            brotherInLaw.add(sp);
-                        }
+        if (member.getMother() != null) {
+            List<Member> relations = member.getMother().getChildren();
+            for (Member r : relations) {
+                if (r.getGender() == Gender.FEMALE && r != member) {
+                    Member sp = r.getSpouse();
+                    if (sp != null) {
+                        brotherInLaw.add(sp);
                     }
                 }
             }
@@ -48,6 +46,7 @@ public class GetBrotherInLaws implements GetRelationshipCommand {
                 }
             }
         }
+
         brotherInLaw.sort(new PersonComparator());
         StringBuilder sb = new StringBuilder();
         for (Member p : brotherInLaw) {

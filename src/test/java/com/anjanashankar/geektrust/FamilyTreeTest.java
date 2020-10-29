@@ -3,9 +3,10 @@ package com.anjanashankar.geektrust;
 import com.anjanashankar.geektrust.exception.ChildAdditionException;
 import com.anjanashankar.geektrust.exception.PersonNotFoundException;
 import com.anjanashankar.geektrust.exception.SpouseAdditionException;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @Author Anjana Shankar
@@ -22,8 +23,8 @@ class FamilyTreeTest {
     @Test
     void testAddFamilyHead() {
         initializeFamilyTree();
-        assertEquals(familyTree.getFamilyHead().getName(), "Head");
-        assertEquals(familyTree.getFamilyHead().getGender(), Gender.FEMALE);
+        assertEquals("Head", familyTree.getFamilyHead().getName());
+        assertEquals(Gender.FEMALE, familyTree.getFamilyHead().getGender());
     }
 
     @Test
@@ -38,8 +39,8 @@ class FamilyTreeTest {
     void testAddSpouse() throws PersonNotFoundException, SpouseAdditionException {
         initializeFamilyTree();
         familyTree.addSpouse("Head", "Spouse", "Male");
-        assertEquals(familyTree.getFamilyHead().getSpouse().getName(), "Spouse");
-        assertEquals(familyTree.getFamilyHead().getSpouse().getGender(), Gender.MALE);
+        assertEquals("Spouse", familyTree.getFamilyHead().getSpouse().getName());
+        assertEquals(Gender.MALE, familyTree.getFamilyHead().getSpouse().getGender());
     }
 
     @Test
@@ -62,9 +63,9 @@ class FamilyTreeTest {
     void testAddChild() throws ChildAdditionException, PersonNotFoundException {
         initializeFamilyTree();
         familyTree.addChild("Head", "Child1", "Female");
-        assertEquals(familyTree.getFamilyHead().getChildren().size(), 1);
-        assertEquals(familyTree.getFamilyHead().getChildren().get(0).getName(), "Child1");
-        assertEquals(familyTree.getFamilyHead().getChildren().get(0).getGender(), Gender.FEMALE);
+        assertEquals(1, familyTree.getFamilyHead().getChildren().size());
+        assertEquals("Child1", familyTree.getFamilyHead().getChildren().get(0).getName());
+        assertEquals(Gender.FEMALE, familyTree.getFamilyHead().getChildren().get(0).getGender());
     }
 
     void helperMethodToTestChildAdditionWithSpouse() throws PersonNotFoundException, SpouseAdditionException {
@@ -77,9 +78,9 @@ class FamilyTreeTest {
     void testAddChildWithSpouseSearch() throws ChildAdditionException, PersonNotFoundException, SpouseAdditionException {
         helperMethodToTestChildAdditionWithSpouse();
         familyTree.addChild("Spouse", "Child1", "Female");
-        assertEquals(familyTree.getFamilyHead().getSpouse().getChildren().size(), 1);
-        assertEquals(familyTree.getFamilyHead().getSpouse().getChildren().get(0).getName(), "Child1");
-        assertEquals(familyTree.getFamilyHead().getSpouse().getChildren().get(0).getGender(), Gender.FEMALE);
+        assertEquals(1, familyTree.getFamilyHead().getSpouse().getChildren().size());
+        assertEquals("Child1", familyTree.getFamilyHead().getSpouse().getChildren().get(0).getName());
+        assertEquals(Gender.FEMALE, familyTree.getFamilyHead().getSpouse().getChildren().get(0).getGender());
     }
 
     @Test
@@ -87,9 +88,9 @@ class FamilyTreeTest {
         helperMethodToTestChildAdditionWithSpouse();
         familyTree.addChild("Spouse", "Child1", "Female");
         familyTree.addChild("Child1", "Child2", "Male");
-        assertEquals(familyTree.getFamilyHead().getSpouse().getChildren().get(0).getChildren().size(), 1);
-        assertEquals(familyTree.getFamilyHead().getSpouse().getChildren().get(0).getChildren().get(0).getName(), "Child2");
-        assertEquals(familyTree.getFamilyHead().getSpouse().getChildren().get(0).getChildren().get(0).getGender(), Gender.MALE);
+        assertEquals(1, familyTree.getFamilyHead().getSpouse().getChildren().get(0).getChildren().size());
+        assertEquals("Child2", familyTree.getFamilyHead().getSpouse().getChildren().get(0).getChildren().get(0).getName());
+        assertEquals(Gender.MALE, familyTree.getFamilyHead().getSpouse().getChildren().get(0).getChildren().get(0).getGender());
     }
 
     @Test
@@ -98,8 +99,8 @@ class FamilyTreeTest {
         familyTree.addChild("Head", "Child2", "Female");
         familyTree.addChild("Child2", "Child3", "Female");
         familyTree.addChild("Child3", "Child4", "Male");
-        assertEquals(familyTree.getFamilyHead().getChildren().
-                get(0).getChildren().get(0).getChildren().size(), 1);
+        assertEquals(1, familyTree.getFamilyHead().getChildren().
+                get(0).getChildren().get(0).getChildren().size());
 
     }
 
@@ -133,17 +134,31 @@ class FamilyTreeTest {
     @Test
     void testGetRelationship() throws PersonNotFoundException, SpouseAdditionException, ChildAdditionException {
         helperMethodToTestRelationships();
-        assertEquals(familyTree.getRelationship("Chit", Relationships.DAUGHTER.toString()), "Dritha Tritha");
-        assertEquals(familyTree.getRelationship("Chit", Relationships.SON.toString()), "Vritha");
-        assertEquals(familyTree.getRelationship("Chit", Relationships.SIBLINGS.toString()), "Ish Vich Aras Satya");
-        assertEquals(familyTree.getRelationship("Dritha", Relationships.PATERNAL_AUNT.toString()), "Satya");
-        assertEquals(familyTree.getRelationship("Dritha", Relationships.PATERNAL_UNCLE.toString()), "Ish Vich Aras");
-        assertEquals(familyTree.getRelationship("Yodhan", Relationships.MATERNAL_AUNT.toString()), "Tritha");
-        assertEquals(familyTree.getRelationship("Yodhan", Relationships.MATERNAL_UNCLE.toString()), "Vritha");
-        assertEquals(familyTree.getRelationship("Lika", Relationships.BROTHER_IN_LAW.toString()), "Chit Ish Aras");
-        assertEquals(familyTree.getRelationship("Tritha", Relationships.BROTHER_IN_LAW.toString()), "Jaya");
-        assertEquals(familyTree.getRelationship("Lika", Relationships.SISTER_IN_LAW.toString()), "Satya");
-        assertEquals(familyTree.getRelationship("Vich", Relationships.SISTER_IN_LAW.toString()), "Amba Chitra");
+        assertEquals("Dritha Tritha", familyTree.getRelationship("Chit", Relationships.DAUGHTER.toString()));
+        assertEquals("Vritha", familyTree.getRelationship("Chit", Relationships.SON.toString()));
+        assertEquals("Ish Vich Aras Satya", familyTree.getRelationship("Chit", Relationships.SIBLINGS.toString()));
+        assertEquals("Satya", familyTree.getRelationship("Dritha", Relationships.PATERNAL_AUNT.toString()));
+        assertEquals("Ish Vich Aras", familyTree.getRelationship("Dritha", Relationships.PATERNAL_UNCLE.toString()));
+        assertEquals("Tritha", familyTree.getRelationship("Yodhan", Relationships.MATERNAL_AUNT.toString()));
+        assertEquals("Vritha", familyTree.getRelationship("Yodhan", Relationships.MATERNAL_UNCLE.toString()));
+        assertEquals("Chit Ish Aras", familyTree.getRelationship("Lika", Relationships.BROTHER_IN_LAW.toString()));
+        assertEquals("Jaya", familyTree.getRelationship("Tritha", Relationships.BROTHER_IN_LAW.toString()));
+        assertEquals("Satya", familyTree.getRelationship("Lika", Relationships.SISTER_IN_LAW.toString()));
+        assertEquals("Amba Chitra", familyTree.getRelationship("Vich", Relationships.SISTER_IN_LAW.toString()));
+    }
+
+    @Test
+    void testGetRelationshipWithNoneValues() throws PersonNotFoundException, SpouseAdditionException, ChildAdditionException {
+        helperMethodToTestRelationships();
+        assertEquals("NONE", familyTree.getRelationship("Ish", Relationships.DAUGHTER.toString()));
+        assertEquals("NONE",familyTree.getRelationship("Ish", Relationships.SON.toString()));
+        assertEquals("NONE", familyTree.getRelationship("Yodhan", Relationships.SIBLINGS.toString()));
+        assertEquals("NONE", familyTree.getRelationship("Yodhan", Relationships.PATERNAL_AUNT.toString()));
+        assertEquals("NONE", familyTree.getRelationship("Arit", Relationships.PATERNAL_UNCLE.toString()));
+        assertEquals("NONE", familyTree.getRelationship("Dritha", Relationships.MATERNAL_AUNT.toString()));
+        assertEquals("NONE", familyTree.getRelationship("Dritha", Relationships.MATERNAL_UNCLE.toString()));
+        assertEquals("NONE", familyTree.getRelationship("Dritha", Relationships.BROTHER_IN_LAW.toString()));
+        assertEquals("NONE", familyTree.getRelationship("Jnki", Relationships.SISTER_IN_LAW.toString()));
     }
 
     @Test

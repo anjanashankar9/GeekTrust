@@ -26,7 +26,7 @@ class MemberTest {
         member = new Member("TestName", Gender.FEMALE, null, null);
         Member newMember = new Member("Test2", Gender.MALE, null, null);
         member.addSpouse(newMember);
-        assertEquals(member.getSpouse(), newMember);
+        assertEquals(newMember, member.getSpouse());
     }
 
     @Test
@@ -39,7 +39,6 @@ class MemberTest {
             Member m = new Member("Test3", Gender.MALE, null, null);
             member.addSpouse(m);
         });
-        assertEquals(member.getSpouse(),newMember);
     }
 
     @Test
@@ -47,8 +46,8 @@ class MemberTest {
         member = new Member("TestName", Gender.FEMALE, null, null);
         Member child = new Member("Test2", Gender.MALE, null, null);
         member.addChild(child);
-        assertEquals(member.getChildren().size(), 1);
-        assertEquals(member.getChildren().get(0), child);
+        assertEquals(1, member.getChildren().size());
+        assertEquals(child, member.getChildren().get(0));
     }
 
     @Test

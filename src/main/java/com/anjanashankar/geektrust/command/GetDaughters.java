@@ -27,7 +27,11 @@ public class GetDaughters implements GetRelationshipCommand {
     @Override
     public String execute() {
         if (member.getGender() != Gender.FEMALE) {
-            member = member.getSpouse();
+            if (member.getSpouse() != null) {
+                member = member.getSpouse();
+            } else {
+                return NONE;
+            }
         }
         List<Member> children = member.getChildren();
         ArrayList<Member> relations = new ArrayList<>();
