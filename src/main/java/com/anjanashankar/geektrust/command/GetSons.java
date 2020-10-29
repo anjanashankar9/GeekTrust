@@ -6,6 +6,7 @@ import com.anjanashankar.geektrust.PersonComparator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.anjanashankar.geektrust.Constants.NONE;
 
@@ -31,13 +32,10 @@ public class GetSons implements GetRelationshipCommand {
             }
         }
         List<Member> children = member.getChildren();
-        ArrayList<Member> relations = new ArrayList<>();
-        //TODO: USE MAP AND FILTER
-        for (Member c : children) {
-            if (c.getGender() == Gender.MALE) {
-                relations.add(c);
-            }
-        }
+        List<Member> relations = children.stream()
+                .filter(c -> c.getGender() == Gender.MALE)
+                .collect(Collectors.toList());
+
         relations.sort(new PersonComparator());
         StringBuilder sb = new StringBuilder();
         for (Member p : relations) {

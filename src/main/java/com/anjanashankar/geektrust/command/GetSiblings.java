@@ -1,9 +1,11 @@
 package com.anjanashankar.geektrust.command;
 
+import com.anjanashankar.geektrust.Gender;
 import com.anjanashankar.geektrust.Member;
 import com.anjanashankar.geektrust.PersonComparator;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.anjanashankar.geektrust.Constants.NONE;
 
@@ -24,6 +26,7 @@ public class GetSiblings implements GetRelationshipCommand {
         List<Member> siblings = member.getMother().getChildren();
         siblings.sort(new PersonComparator());
         StringBuilder sb = new StringBuilder();
+
         for (Member p : siblings) {
             if (p != member) {
                 sb.append(p.getName() + " ");
