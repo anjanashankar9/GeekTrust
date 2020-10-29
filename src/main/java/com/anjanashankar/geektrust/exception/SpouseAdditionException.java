@@ -6,9 +6,9 @@ import com.anjanashankar.geektrust.Constants;
  * @Author Anjana Shankar
  * @Created 2020-10-28
  */
-public class RelationshipNotFoundException extends Exception {
+public class SpouseAdditionException extends Exception {
 
-    public RelationshipNotFoundException() {
-        super(Constants.PROVIDE_VALID_RELATION);
+    public SpouseAdditionException() {
+        super(Constants.SPOUSE_ADDITION_FAILED);
     }
 }

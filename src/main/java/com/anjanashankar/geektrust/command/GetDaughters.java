@@ -1,7 +1,7 @@
 package com.anjanashankar.geektrust.command;
 
 import com.anjanashankar.geektrust.Gender;
-import com.anjanashankar.geektrust.Person;
+import com.anjanashankar.geektrust.Member;
 import com.anjanashankar.geektrust.PersonComparator;
 
 import java.util.ArrayList;
@@ -14,32 +14,32 @@ import static com.anjanashankar.geektrust.Constants.NONE;
  * @Created 2020-10-28
  */
 public class GetDaughters implements GetRelationshipCommand {
-    Person person;
+    Member member;
 
     public GetDaughters() {
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
 
     @Override
     public String execute() {
-        if (person.getGender() != Gender.FEMALE) {
-            person = person.getSpouse();
+        if (member.getGender() != Gender.FEMALE) {
+            member = member.getSpouse();
         }
-        List<Person> children = person.getChildren();
-        ArrayList<Person> relations = new ArrayList<>();
+        List<Member> children = member.getChildren();
+        ArrayList<Member> relations = new ArrayList<>();
         //TODO: USE MAP AND FILTER
-        for (Person c : children) {
+        for (Member c : children) {
             if (c.getGender() == Gender.FEMALE) {
                 relations.add(c);
             }
         }
         relations.sort(new PersonComparator());
         StringBuilder sb = new StringBuilder();
-        for (Person p : relations) {
+        for (Member p : relations) {
             sb.append(p.getName() + " ");
         }
         return sb.length() == 0 ? NONE : sb.toString().trim();

@@ -1,6 +1,6 @@
 package com.anjanashankar.geektrust.command;
 
-import com.anjanashankar.geektrust.Person;
+import com.anjanashankar.geektrust.Member;
 import com.anjanashankar.geektrust.PersonComparator;
 
 import java.util.List;
@@ -12,22 +12,22 @@ import static com.anjanashankar.geektrust.Constants.NONE;
  * @Created 2020-10-28
  */
 public class GetSiblings implements GetRelationshipCommand {
-    Person person;
+    Member member;
 
     @Override
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     @Override
     public String execute() {
-        List<Person> siblings = person.getMother().getChildren();
-        //TODO: USE MAP AND FILTER
-        siblings.remove(person);
+        List<Member> siblings = member.getMother().getChildren();
         siblings.sort(new PersonComparator());
         StringBuilder sb = new StringBuilder();
-        for (Person p : siblings) {
-            sb.append(p.getName() + " ");
+        for (Member p : siblings) {
+            if (p != member) {
+                sb.append(p.getName() + " ");
+            }
         }
         return sb.length() == 0 ? NONE : sb.toString().trim();
     }

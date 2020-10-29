@@ -3,54 +3,57 @@ package com.anjanashankar.geektrust;
 import com.anjanashankar.geektrust.command.*;
 import com.anjanashankar.geektrust.exception.ChildAdditionException;
 import com.anjanashankar.geektrust.exception.PersonNotFoundException;
-import com.anjanashankar.geektrust.exception.RelationshipNotFoundException;
+import com.anjanashankar.geektrust.exception.SpouseAdditionException;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.anjanashankar.geektrust.Constants.CHILD_ADDITION_SUCCEEDED;
 
 /**
  * @Author Anjana Shankar
  * @Created 2020-10-28
  */
 public class FamilyTree {
-    private Person familyHead;
+
+    private Member familyHead;
+
+    public Member getFamilyHead() {
+        return familyHead;
+    }
 
     public void addFamilyHead(String name, String gender) {
-        this.familyHead = new Person(name,
+        this.familyHead = new Member(name,
                 Gender.fromString(gender),
                 null, null);
     }
 
-    public Person searchByName(String name) throws PersonNotFoundException {
-        Person p = searchByName(familyHead, name);
-        if (p == null) {
+    private Member searchByName(String name) throws PersonNotFoundException {
+        Member member = searchByName(familyHead, name);
+        if (member == null) {
             throw new PersonNotFoundException();
         }
-        return p;
+        return member;
     }
 
-    public Person searchByName(Person p, String name) {
-        if (p == null || name == null)
+    private Member searchByName(Member member, String name) {
+        if (member == null || name == null)
             return null;
 
-        if (p.getName().equals(name)) {
-            return p;
+        if (member.getName().equals(name)) {
+            return member;
         }
-        if (p.getSpouse() != null && p.getSpouse().getName().equals(name)) {
-            return p.getSpouse();
-        }
-
-        Person found = null;
-        List<Person> childlist = new ArrayList<>();
-        if (p.getGender() == Gender.FEMALE) {
-            childlist = p.getChildren();
-        } else if (p.getSpouse() != null) {
-            childlist = p.getSpouse().getChildren();
+        if (member.getSpouse() != null && member.getSpouse().getName().equals(name)) {
+            return member.getSpouse();
         }
 
-        for (Person c : childlist) {
+        Member found = null;
+        List<Member> childlist = new ArrayList<>();
+        if (member.getGender() == Gender.FEMALE) {
+            childlist = member.getChildren();
+        } else if (member.getSpouse() != null) {
+            childlist = member.getSpouse().getChildren();
+        }
+
+        for (Member c : childlist) {
             found = searchByName(c, name);
             if (found != null) {
                 return found;
@@ -59,22 +62,22 @@ public class FamilyTree {
         return null;
     }
 
-    public void addSpouse(String name, String spouseName, String gender) throws PersonNotFoundException {
-        Person p = searchByName(name);
-        Person newPerson = new Person(spouseName, Gender.fromString(gender), null, null);
-        p.addSpouse(newPerson);
+    public void addSpouse(String name, String spouseName, String gender) throws PersonNotFoundException, SpouseAdditionException {
+        Member member = searchByName(name);
+        Member newMember = new Member(spouseName, Gender.fromString(gender), null, null);
+        member.addSpouse(newMember);
     }
 
     public void addChild(String name, String childName, String gender) throws PersonNotFoundException, ChildAdditionException {
-        Person p = searchByName(name);
-        Person newPerson = new Person(childName, Gender.fromString(gender), null, null);
-        p.addChild(newPerson);
-        System.out.println(CHILD_ADDITION_SUCCEEDED);
+        Member member = searchByName(name);
+        Member newMember = new Member(childName, Gender.fromString(gender), null, null);
+        member.addChild(newMember);
+        System.out.println(Constants.CHILD_ADDITION_SUCCEEDED);
     }
 
-    public String getRelationship(String name, String relation) throws PersonNotFoundException, RelationshipNotFoundException {
-        Person person = searchByName(name);
-        if (person == null) {
+    public String getRelationship(String name, String relation) throws PersonNotFoundException {
+        Member member = searchByName(name);
+        if (member == null) {
             throw new PersonNotFoundException();
         }
         Relationships relationship = Relationships.fromString(relation);
@@ -117,11 +120,8 @@ public class FamilyTree {
                 cmd = new GetPaternalUncles();
                 break;
 
-            default:
-                throw new RelationshipNotFoundException();
-
         }
-        cmd.setPerson(person);
+        cmd.setMember(member);
         return cmd.execute();
     }
 }

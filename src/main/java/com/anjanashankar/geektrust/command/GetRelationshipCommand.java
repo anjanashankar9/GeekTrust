@@ -1,6 +1,6 @@
 package com.anjanashankar.geektrust.command;
 
-import com.anjanashankar.geektrust.Person;
+import com.anjanashankar.geektrust.Member;
 
 /**
  * Using the command pattern to implement the get relationships.
@@ -9,7 +9,7 @@ import com.anjanashankar.geektrust.Person;
  * @Created 2020-10-28
  */
 public interface GetRelationshipCommand {
-    void setPerson(Person person);
+    void setMember(Member member);
 
     String execute();
 }

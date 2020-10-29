@@ -22,6 +22,8 @@ public class Constants {
 
     public static final String CHILD_ADDITION_SUCCEEDED = "CHILD_ADDITION_SUCCEEDED";
 
+    public static final String SPOUSE_ADDITION_FAILED = "SPOUSE_ADDITION_FAILED";
+
     public static final String NONE = "NONE";
 
     public static final String INVALID_COMMAND = "INVALID COMMAND!";

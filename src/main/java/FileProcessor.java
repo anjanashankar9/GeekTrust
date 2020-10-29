@@ -1,10 +1,8 @@
-package com.anjanashankar.geektrust.processor;
-
 import com.anjanashankar.geektrust.FamilyTree;
 import com.anjanashankar.geektrust.exception.ChildAdditionException;
 import com.anjanashankar.geektrust.exception.CommandNotFoundException;
 import com.anjanashankar.geektrust.exception.PersonNotFoundException;
-import com.anjanashankar.geektrust.exception.RelationshipNotFoundException;
+import com.anjanashankar.geektrust.exception.SpouseAdditionException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,7 +50,7 @@ public class FileProcessor {
             String command = sc.nextLine();
             try {
                 processCommand(family, command);
-            } catch (PersonNotFoundException | RelationshipNotFoundException | CommandNotFoundException | ChildAdditionException e) {
+            } catch (PersonNotFoundException | CommandNotFoundException | ChildAdditionException | SpouseAdditionException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -63,7 +61,7 @@ public class FileProcessor {
     So have no checks around it.
      */
     private void processCommand(FamilyTree family, String command)
-            throws PersonNotFoundException, RelationshipNotFoundException, CommandNotFoundException, ChildAdditionException {
+            throws PersonNotFoundException, CommandNotFoundException, ChildAdditionException, SpouseAdditionException {
         String regex = "([A-Z_]+)\\ +(.+)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(command);

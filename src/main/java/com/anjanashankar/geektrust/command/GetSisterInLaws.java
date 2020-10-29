@@ -1,7 +1,7 @@
 package com.anjanashankar.geektrust.command;
 
 import com.anjanashankar.geektrust.Gender;
-import com.anjanashankar.geektrust.Person;
+import com.anjanashankar.geektrust.Member;
 import com.anjanashankar.geektrust.PersonComparator;
 
 import java.util.ArrayList;
@@ -14,24 +14,24 @@ import static com.anjanashankar.geektrust.Constants.NONE;
  * @Created 2020-10-28
  */
 public class GetSisterInLaws implements GetRelationshipCommand {
-    Person person;
+    Member member;
 
     @Override
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     @Override
     public String execute() {
-        ArrayList<Person> sisterInLaw = new ArrayList<>();
+        ArrayList<Member> sisterInLaw = new ArrayList<>();
 
         //Wives of siblings
-        if (person.getGender() == Gender.MALE) {
-            if (person.getMother() != null) {
-                List<Person> relations = person.getMother().getChildren();
-                for (Person r : relations) {
-                    if (r.getGender() == Gender.MALE && r != person) {
-                        Person sp = r.getSpouse();
+        if (member.getGender() == Gender.MALE) {
+            if (member.getMother() != null) {
+                List<Member> relations = member.getMother().getChildren();
+                for (Member r : relations) {
+                    if (r.getGender() == Gender.MALE && r != member) {
+                        Member sp = r.getSpouse();
                         if (sp != null) {
                             sisterInLaw.add(sp);
                         }
@@ -40,17 +40,17 @@ public class GetSisterInLaws implements GetRelationshipCommand {
             }
         }
         //Spouse Sisters
-        if (person.getSpouse() != null && person.getSpouse().getMother() != null) {
-            List<Person> relations = person.getSpouse().getMother().getChildren();
-            for (Person r : relations) {
-                if (r.getGender() == Gender.FEMALE && r != person) {
+        if (member.getSpouse() != null && member.getSpouse().getMother() != null) {
+            List<Member> relations = member.getSpouse().getMother().getChildren();
+            for (Member r : relations) {
+                if (r.getGender() == Gender.FEMALE && r != member) {
                     sisterInLaw.add(r);
                 }
             }
         }
         sisterInLaw.sort(new PersonComparator());
         StringBuilder sb = new StringBuilder();
-        for (Person p : sisterInLaw) {
+        for (Member p : sisterInLaw) {
             sb.append(p.getName() + " ");
         }
         return sb.length() == 0 ? NONE : sb.toString().trim();
