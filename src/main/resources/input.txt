@@ -1,9 +1,3 @@
-GET_RELATIONSHIP "Chit" "Daughter"
-GET_RELATIONSHIP "Jnki" "Paternal-Aunt"
-GET_RELATIONSHIP "Jnki" "Paternal-Uncle"
-GET_RELATIONSHIP "Asva" "Maternal-Aunt"
-GET_RELATIONSHIP "Asva" "Maternal-Uncle"
-GET_RELATIONSHIP "Chit" "Sister-In-Law"
-GET_RELATIONSHIP "Chit" "Son"
-GET_RELATIONSHIP "Chit" "Siblings"
-GET_RELATIONSHIP "Satvy" "Brother-In-Law"
+ADD_CHILD Chitra Aria Female
+GET_RELATIONSHIP Aria Paternal-Aunt
+GET_RELATIONSHIP Lavnya Maternal-Uncle

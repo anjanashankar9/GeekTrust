@@ -28,7 +28,7 @@ public class FileProcessor {
         }
 
         Scanner sc = new Scanner(input);
-        processFile(family, sc);
+        processFile(family, sc, true);
         return false;
     }
 
@@ -37,7 +37,7 @@ public class FileProcessor {
         Scanner sc = null;
         try {
             sc = new Scanner(file);
-            processFile(family, sc);
+            processFile(family, sc, false);
         } catch (FileNotFoundException e) {
             System.out.println("Input File is not found." +
                     "Please enter valid file!");
@@ -45,11 +45,11 @@ public class FileProcessor {
         return false;
     }
 
-    private void processFile(FamilyTree family, Scanner sc) {
+    private void processFile(FamilyTree family, Scanner sc, boolean isBootStrap) {
         while (sc.hasNextLine()) {
             String command = sc.nextLine();
             try {
-                processCommand(family, command);
+                processCommand(family, command, isBootStrap);
             } catch (PersonNotFoundException | CommandNotFoundException | ChildAdditionException | SpouseAdditionException e) {
                 System.out.println(e.getMessage());
             }
@@ -60,7 +60,7 @@ public class FileProcessor {
     Assumption is that the input file will be properly formatted.
     So have no checks around it.
      */
-    private void processCommand(FamilyTree family, String command)
+    private void processCommand(FamilyTree family, String command, boolean isBootstrap)
             throws PersonNotFoundException, CommandNotFoundException, ChildAdditionException, SpouseAdditionException {
         String regex = "([A-Z_]+)\\ +(.+)";
         Pattern pattern = Pattern.compile(regex);
@@ -79,10 +79,10 @@ public class FileProcessor {
                     break;
 
                 case ADD_CHILD:
-                    p = Pattern.compile("\"([A-Za-z ]+)\"\\ +\"([A-Za-z ]+)\"\\ +\"([A-Za-z]+)\"");
+                    p = Pattern.compile("\"([A-Za-z ]+)\"*\\ +\"([A-Za-z ]+)\"*\\ +\"*([A-Za-z]+)\"*");
                     m = p.matcher(matcher.group(2));
                     if (m.find()) {
-                        family.addChild(m.group(1), m.group(2), m.group(3));
+                        family.addChild(m.group(1), m.group(2), m.group(3), isBootstrap);
                     }
                     break;
 

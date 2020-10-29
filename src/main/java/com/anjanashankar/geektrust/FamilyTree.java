@@ -68,11 +68,12 @@ public class FamilyTree {
         member.addSpouse(newMember);
     }
 
-    public void addChild(String name, String childName, String gender) throws PersonNotFoundException, ChildAdditionException {
+    public void addChild(String name, String childName, String gender, boolean isBootstrap) throws PersonNotFoundException, ChildAdditionException {
         Member member = searchByName(name);
         Member newMember = new Member(childName, Gender.fromString(gender), null, null);
         member.addChild(newMember);
-        System.out.println(Constants.CHILD_ADDITION_SUCCEEDED);
+        if(!isBootstrap)
+            System.out.println(Constants.CHILD_ADDITION_SUCCEEDED);
     }
 
     public String getRelationship(String name, String relation) throws PersonNotFoundException {

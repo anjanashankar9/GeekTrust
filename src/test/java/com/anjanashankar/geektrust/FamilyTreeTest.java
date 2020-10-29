@@ -62,7 +62,7 @@ class FamilyTreeTest {
     @Test
     void testAddChild() throws ChildAdditionException, PersonNotFoundException {
         initializeFamilyTree();
-        familyTree.addChild("Head", "Child1", "Female");
+        familyTree.addChild("Head", "Child1", "Female", false);
         assertEquals(1, familyTree.getFamilyHead().getChildren().size());
         assertEquals("Child1", familyTree.getFamilyHead().getChildren().get(0).getName());
         assertEquals(Gender.FEMALE, familyTree.getFamilyHead().getChildren().get(0).getGender());
@@ -77,7 +77,7 @@ class FamilyTreeTest {
     @Test
     void testAddChildWithSpouseSearch() throws ChildAdditionException, PersonNotFoundException, SpouseAdditionException {
         helperMethodToTestChildAdditionWithSpouse();
-        familyTree.addChild("Spouse", "Child1", "Female");
+        familyTree.addChild("Spouse", "Child1", "Female", false);
         assertEquals(1, familyTree.getFamilyHead().getSpouse().getChildren().size());
         assertEquals("Child1", familyTree.getFamilyHead().getSpouse().getChildren().get(0).getName());
         assertEquals(Gender.FEMALE, familyTree.getFamilyHead().getSpouse().getChildren().get(0).getGender());
@@ -86,8 +86,8 @@ class FamilyTreeTest {
     @Test
     void testAddChildWithChildSearch() throws ChildAdditionException, PersonNotFoundException, SpouseAdditionException {
         helperMethodToTestChildAdditionWithSpouse();
-        familyTree.addChild("Spouse", "Child1", "Female");
-        familyTree.addChild("Child1", "Child2", "Male");
+        familyTree.addChild("Spouse", "Child1", "Female", false);
+        familyTree.addChild("Child1", "Child2", "Male", false);
         assertEquals(1, familyTree.getFamilyHead().getSpouse().getChildren().get(0).getChildren().size());
         assertEquals("Child2", familyTree.getFamilyHead().getSpouse().getChildren().get(0).getChildren().get(0).getName());
         assertEquals(Gender.MALE, familyTree.getFamilyHead().getSpouse().getChildren().get(0).getChildren().get(0).getGender());
@@ -96,9 +96,9 @@ class FamilyTreeTest {
     @Test
     void testAddChildTwoLevelSearch() throws ChildAdditionException, PersonNotFoundException {
         initializeFamilyTree();
-        familyTree.addChild("Head", "Child2", "Female");
-        familyTree.addChild("Child2", "Child3", "Female");
-        familyTree.addChild("Child3", "Child4", "Male");
+        familyTree.addChild("Head", "Child2", "Female", false);
+        familyTree.addChild("Child2", "Child3", "Female", false);
+        familyTree.addChild("Child3", "Child4", "Male", false);
         assertEquals(1, familyTree.getFamilyHead().getChildren().
                 get(0).getChildren().get(0).getChildren().size());
 
@@ -108,27 +108,27 @@ class FamilyTreeTest {
         familyTree = new FamilyTree();
         familyTree.addFamilyHead("Queen Anga", "Female");
         familyTree.addSpouse("Queen Anga", "King Shan", "Male");
-        familyTree.addChild("Queen Anga","Chit","Male");
+        familyTree.addChild("Queen Anga","Chit","Male", true);
         familyTree.addSpouse("Chit","Amba","Female");
-        familyTree.addChild("Queen Anga","Ish","Male");
-        familyTree.addChild("Queen Anga","Vich","Male");
+        familyTree.addChild("Queen Anga","Ish","Male",true);
+        familyTree.addChild("Queen Anga","Vich","Male", true);
         familyTree.addSpouse("Vich","Lika", "Female");
-        familyTree.addChild("Queen Anga","Aras","Male");
+        familyTree.addChild("Queen Anga","Aras","Male",true);
         familyTree.addSpouse("Aras","Chitra","Female");
-        familyTree.addChild("Queen Anga","Satya","Female");
+        familyTree.addChild("Queen Anga","Satya","Female",true);
         familyTree.addSpouse("Satya","Vyan","Male");
-        familyTree.addChild("Amba","Dritha","Female");
-        familyTree.addChild("Amba","Tritha","Female");
-        familyTree.addChild("Amba","Vritha","Male");
+        familyTree.addChild("Amba","Dritha","Female",true);
+        familyTree.addChild("Amba","Tritha","Female",true);
+        familyTree.addChild("Amba","Vritha","Male",true);
         familyTree.addSpouse("Dritha","Jaya","Male");
-        familyTree.addChild("Dritha","Yodhan","Male");
-        familyTree.addChild("Lika","Vila","Female");
-        familyTree.addChild("Lika","Chika","Female");
-        familyTree.addChild("Chitra","Jnki","Female");
+        familyTree.addChild("Dritha","Yodhan","Male",true);
+        familyTree.addChild("Lika","Vila","Female",true);
+        familyTree.addChild("Lika","Chika","Female",true);
+        familyTree.addChild("Chitra","Jnki","Female",true);
         familyTree.addSpouse("Jnki","Arit","Male");
-        familyTree.addChild("Chitra","Ahit","Male");
-        familyTree.addChild("Jnki","Laki","Male");
-        familyTree.addChild("Jnki","Lavnya","Female");
+        familyTree.addChild("Chitra","Ahit","Male",true);
+        familyTree.addChild("Jnki","Laki","Male",true);
+        familyTree.addChild("Jnki","Lavnya","Female",true);
     }
 
     @Test
