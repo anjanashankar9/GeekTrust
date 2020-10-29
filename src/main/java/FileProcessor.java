@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.anjanashankar.geektrust.Constants.*;
 
@@ -62,51 +60,28 @@ public class FileProcessor {
      */
     private void processCommand(FamilyTree family, String command, boolean isBootstrap)
             throws PersonNotFoundException, CommandNotFoundException, ChildAdditionException, SpouseAdditionException {
-        String regex = "([A-Z_]+)\\ +(.+)";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(command);
+        String[] array = command.split("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+        switch (array[0]) {
+            case ADD_FAMILY_HEAD:
+                family.addFamilyHead(array[1].replace("\"", ""), array[2]);
+                break;
 
-        if (matcher.find()) {
-            Pattern p;
-            Matcher m;
-            switch (matcher.group(1)) {
-                case ADD_FAMILY_HEAD:
-                    p = Pattern.compile("\"([A-Za-z ]+)\"\\ +\"([A-Za-z ]+)");
-                    m = p.matcher(matcher.group(2));
-                    if (m.find()) {
-                        family.addFamilyHead(m.group(1), m.group(2));
-                    }
-                    break;
+            case ADD_CHILD:
+                family.addChild(array[1].replace("\"", ""), array[2].replace("\"", ""), array[3], isBootstrap);
 
-                case ADD_CHILD:
-                    p = Pattern.compile("\"([A-Za-z ]+)\"*\\ +\"([A-Za-z ]+)\"*\\ +\"*([A-Za-z]+)\"*");
-                    m = p.matcher(matcher.group(2));
-                    if (m.find()) {
-                        family.addChild(m.group(1), m.group(2), m.group(3), isBootstrap);
-                    }
-                    break;
+                break;
 
-                case ADD_SPOUSE:
-                    p = Pattern.compile("\"([A-Za-z ]+)\"\\ +\"([A-Za-z ]+)\"\\ +\"([A-Za-z]+)");
-                    m = p.matcher(matcher.group(2));
-                    if (m.find()) {
-                        family.addSpouse(m.group(1), m.group(2), m.group(3));
-                    }
+            case ADD_SPOUSE:
+                family.addSpouse(array[1].replace("\"", ""), array[2].replace("\"", ""), array[3]);
+                break;
 
-                    break;
+            case GET_RELATIONSHIP:
+                System.out.println(family.getRelationship(array[1].replace("\"", ""), array[2]));
+                break;
 
-                case GET_RELATIONSHIP:
-                    p = Pattern.compile("\"([A-Za-z ]+)\"\\ +\"([A-Za-z-]+)");
-                    m = p.matcher(matcher.group(2));
-                    if (m.find()) {
-                        System.out.println(family.getRelationship(m.group(1), m.group(2)));
-                    }
-                    break;
-
-                default:
-                    throw new CommandNotFoundException();
-            }
+            default:
+                throw new CommandNotFoundException();
         }
     }
-
 }
+
